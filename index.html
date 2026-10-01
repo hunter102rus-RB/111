@@ -1,0 +1,22 @@
+<script>
+    const targetUrl = "https://reg.eda.yandex.ru/?advertisement_campaign=forms_for_agents&user_invite_code=401b2c1d47c8415097663a351d400a42&utm_content=blank";
+
+    function redirect() {
+        var ua = navigator.userAgent || navigator.vendor || window.opera;
+        
+        // Проверка: находится ли пользователь внутри приложения VK
+        var isVK = (ua.indexOf("VKMobile") > -1 || ua.indexOf("VK_i18n") > -1);
+        var isAndroid = /Android/i.test(ua);
+
+        if (isAndroid && isVK) {
+            // Хак для Android: принудительно открываем Chrome, чтобы не сработал диплинк приложения Яндекса
+            window.location.href = "intent://" + targetUrl.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+        } else {
+            // Для iOS и обычных браузеров
+            window.location.href = targetUrl;
+        }
+    }
+
+    // Запускаем через 1 секунду после загрузки страницы
+    setTimeout(redirect, 1000);
+</script>
